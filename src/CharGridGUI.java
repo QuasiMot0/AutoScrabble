@@ -179,7 +179,7 @@ public class CharGridGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 char[][] grid = getGrid();
-                File file = new File(String.valueOf(Paths.get("resources" + "output.txt")));
+                File file = new File(String.valueOf(Paths.get("resources" , "output.txt")));
                 try (PrintWriter pw = new PrintWriter(new FileWriter(file), false)) {
                     for (int i = 0; i <= grid.length - 1; i++) {
                         pw.append(printArray(grid[i]) + "\n");
@@ -194,7 +194,7 @@ public class CharGridGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 char[][] grid = new char[GRID_SIZE][GRID_SIZE];
-                File file = new File(String.valueOf(Paths.get("resources" + "output.txt")));
+                File file = new File(String.valueOf(Paths.get("resources", "output.txt")));
                 try (BufferedReader bfr = new BufferedReader(new FileReader(file))) {
                     for (int i = 0; i <= grid.length - 1; i++) {
                         String line = bfr.readLine();
