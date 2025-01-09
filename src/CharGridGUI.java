@@ -58,16 +58,28 @@ public class CharGridGUI {
                 }
                 txtSpot.addKeyListener(new KeyAdapter() {
                     @Override
-                    public void keyTyped(KeyEvent e) {
-                        if (txtSpot.getText().length() <= 1) {
+                    public void keyPressed(KeyEvent e) {
+                        char typedChar = e.getKeyChar();
+                        // Detect if Tab key is pressed
+                        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                            switchDirection(); // Your method to handle Tab press
+                        } else if (txtSpot.getText().length() <= 1 ) {
                             if (currentIndex < GRID_SIZE * GRID_SIZE - adder) {
-                                if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE && currentIndex > 0) {
-                                    textFields[currentIndex - adder].requestFocus();
-                                    resetColor();
-                                } else if (e.getKeyChar() != KeyEvent.VK_DELETE) {
-                                    textFields[currentIndex].setBackground(Color.decode("#C4A484"));
-                                    textFields[currentIndex + adder].requestFocus();
+                                if (Character.isAlphabetic(typedChar) || typedChar == KeyEvent.VK_BACK_SPACE){
+                                    if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentIndex > 0) {
+                                        resetColor();
+                                        textFields[currentIndex - adder].requestFocus();
+                                    } else if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
+                                        textFields[currentIndex + adder].requestFocus();
+                                        textFields[currentIndex].setBackground(Color.decode("#C4A484"));
+                                    }
+                                } else {
+                                    if(!textFields[currentIndex].getText().isEmpty()){
+                                        textFields[currentIndex].setText(textFields[currentIndex].getText().substring(0, textFields[currentIndex].getText().length() - 1));
+                                    }
+
                                 }
+
                             }
                         }
                     }
@@ -156,13 +168,7 @@ public class CharGridGUI {
         directionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (directionButton.getText().equals("\u2192")) {
-                    directionButton.setText("\u2193");
-                    adder = 15;
-                } else {
-                    directionButton.setText("\u2192");
-                    adder = 1;
-                }
+                switchDirection();
             }
         });
 
@@ -226,6 +232,16 @@ public class CharGridGUI {
         frame.setSize(600, 600);
         frame.setVisible(true);
 
+    }
+
+    public void switchDirection(){
+        if (directionButton.getText().equals("\u2192")) {
+            directionButton.setText("\u2193");
+            adder = 15;
+        } else {
+            directionButton.setText("\u2192");
+            adder = 1;
+        }
     }
 
     // Method to update the grid with a 2D char array
@@ -322,7 +338,6 @@ public class CharGridGUI {
                 } else {
                     cellFields[row][col].setBackground(Color.decode("#C4A484"));
                 }
-
             }
         }
     }
