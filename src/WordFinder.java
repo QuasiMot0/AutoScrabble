@@ -7,6 +7,7 @@ import java.util.concurrent.CountDownLatch;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+//distlcn
 public class WordFinder {
 
 
@@ -71,8 +72,9 @@ public class WordFinder {
                 noDupword += g;
             }
         }
-
+        noDupword += word;
         noDupword = removeDuplicates(noDupword).replace(" ", "");
+        System.out.println(noDupword);
         CountDownLatch latch = new CountDownLatch(noDupword.length());
         for (int i = 0; i < noDupword.length(); i++) {
             Thread t = new Thread(new FindWords(noDupword.charAt(i), board, boardLiterals, literalPoints, splitPoint, word, latch));
