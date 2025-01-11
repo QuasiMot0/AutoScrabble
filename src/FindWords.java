@@ -71,9 +71,10 @@ public class FindWords implements Runnable {
                     if (containsAllLetters(letsGiven + gapList.get(g).replace(" ", ""), s)) {
                         if (matchesSpot(board, splitPoint, s, pointList.get(g), g)) {
                             int wordScore = scoreWord(board, s, g, splitPoint, pointList.get(g), gapList.get(g), letsGiven);
+
                             if (!possibleWords.containsKey(s) || wordScore > possibleWords.get(s)) {
                                 possibleWords.put(s, wordScore);
-                                System.out.println(s + " - " + wordScore);
+
                                 if (highScore < wordScore) {
                                     synchronized (lock) {
                                         row = g < splitPoint;
