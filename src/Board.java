@@ -27,6 +27,10 @@ public class Board {
         board[x][y] = c;
     }
 
+    public char[][] getBoard() {
+        return board;
+    }
+
     public void setBoard(Point p, char c) {
         board[p.x][p.y] = c;
     }
@@ -147,8 +151,8 @@ public class Board {
             row += board[place.x][i];
             if (board[place.x][i] == '\u0000' || board[place.x][i] == ' ') {
                 wording = false;
-                if (!word.isEmpty()) {
-                    if (WordFinder.isNotWord(word)) {
+                if (word.isEmpty()) {
+                    if (!WordFinder.isAWord(word)) {
                         return false;
                     }
                     word = "";
@@ -161,7 +165,7 @@ public class Board {
 
         }
         if (wording) {
-            if (WordFinder.isNotWord(word)) {
+            if (!WordFinder.isAWord(word)) {
                 return false;
             }
         }
@@ -179,7 +183,7 @@ public class Board {
             if (board[i][place.y] == '\u0000' || board[i][place.y] == ' ') {
                 wording = false;
                 if (!word.isEmpty()) {
-                    if (WordFinder.isNotWord(word) && word.length() > 1) {
+                    if (!WordFinder.isAWord(word) && word.length() > 1) {
                         return false;
                     }
                     word = "";
@@ -192,7 +196,7 @@ public class Board {
 
         }
         if (wording) {
-            if (WordFinder.isNotWord(word)) {
+            if (!WordFinder.isAWord(word)) {
                 return false;
             }
         }

@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 public class CharGridGUI {
 
@@ -20,7 +23,11 @@ public class CharGridGUI {
     private JButton Oxyphenbutazone;
     private JButton save;
     private JButton load;
+    private JButton undo;
+    private Board prevBoard;
+
     public JLabel score;
+
 
     public CharGridGUI() {
 // Initialize the main frame
@@ -175,6 +182,8 @@ public class CharGridGUI {
 // Save and load buttons
         save = new JButton("Save");
         load = new JButton("Load");
+        undo = new JButton("Undo");
+
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -210,12 +219,20 @@ public class CharGridGUI {
             }
         });
 
+        undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                undo();
+            }
+        });
+
 // Bottom panel components
         JPanel bottomPanel = new JPanel();
         score = new JLabel("0");
         bottomPanel.add(save);
         bottomPanel.add(score);
         bottomPanel.add(load);
+        bottomPanel.add(undo);
 
 // Add components to the frame
         enterPanel.add(directionButton);
@@ -243,9 +260,13 @@ public class CharGridGUI {
             adder = 1;
         }
     }
-
+    public void undo(){
+        updateGrid(prevBoard.getBoard());
+        resetColor();
+    }
     // Method to update the grid with a 2D char array
     public void updateGrid(char[][] charArray) {
+        prevBoard = new Board(getGrid());
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
                 // Ensure bounds are respected in case of smaller arrays

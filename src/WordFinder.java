@@ -156,16 +156,48 @@ public class WordFinder {
         return sb.toString();
     }
 
-    public static boolean isNotWord(String word) {
-
-        if (word.length() == 1) return false;
+    public static boolean isAWord(String word){
+        if(word.isEmpty()) {return false;}
+        if(word.length() == 1) {return true;}
         Path filePath = Paths.get("resources", "allWords", word.charAt(0) + "Words.txt");
-        for (String s : words(filePath)) {
-            if (s.equals(word)) {
-                return false;
+        File raf = new File(filePath.toString());
+        try(RandomAccessFile file = new RandomAccessFile(raf, "r")){
+            long low = 0;
+            long high = file.length();
+            while(low <= high){
+                long mid = (low + high) / 2;
+
+                //Move to the middle of the file
+                file.seek(mid);
+
+                //Adjust to the beginning of the current line
+                if(mid != 0){
+                    file.readLine();
+                }
+
+                String line = file.readLine();
+
+                // if we reach End of file, adjust high pointer
+                if(line == null){
+                    high = mid -1;
+                    continue;
+                }
+
+                int comparison = line.compareTo(word);
+                if(comparison == 0){
+                    return true;
+                }else if(comparison > 0){
+                    high = mid -1;
+                }
+                else{
+                    low = mid + 1;
+                }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
+        return false;
     }
 
     public static List<String> extractSubstringsR(String input, int number, int lineNum) {
