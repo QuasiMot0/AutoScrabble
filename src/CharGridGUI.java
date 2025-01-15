@@ -74,10 +74,12 @@ public class CharGridGUI {
                             if (currentIndex < GRID_SIZE * GRID_SIZE - adder) {
                                 if (Character.isAlphabetic(typedChar) || typedChar == KeyEvent.VK_BACK_SPACE){
                                     if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentIndex > 0) {
-                                        resetColor();
+
                                         textFields[currentIndex - adder].requestFocus();
+                                        resetColor();
                                     } else if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
                                         textFields[currentIndex + adder].requestFocus();
+                                        textFields[currentIndex].setText("");
                                         textFields[currentIndex].setBackground(Color.decode("#C4A484"));
                                     }
                                 } else {
@@ -194,6 +196,7 @@ public class CharGridGUI {
                         pw.append(printArray(grid[i]) + "\n");
                         pw.flush();
                     }
+                    pw.append(lettersGiven.getText() + "\n");
                 } catch (IOException er) {
                     System.out.println("you got the file name wrong moron");
                 }
@@ -211,6 +214,7 @@ public class CharGridGUI {
                             grid[i][j] = line.charAt(j);
                         }
                     }
+                    lettersGiven.setText(bfr.readLine());
                 } catch (IOException er) {
                     System.out.println("you got the file name wrong");
                 }
