@@ -152,7 +152,6 @@ public class WordFinder {
         for (char c : uniqueChars) {
             sb.append(c);
         }
-
         return sb.toString();
     }
 

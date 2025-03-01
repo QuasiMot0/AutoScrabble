@@ -25,6 +25,7 @@ public class CharGridGUI {
     private JButton load;
     private JButton undo;
     private Board prevBoard;
+    private JButton wordQuestion;
 
     public JLabel score;
 
@@ -74,12 +75,10 @@ public class CharGridGUI {
                             if (currentIndex < GRID_SIZE * GRID_SIZE - adder) {
                                 if (Character.isAlphabetic(typedChar) || typedChar == KeyEvent.VK_BACK_SPACE){
                                     if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentIndex > 0) {
-
-                                        textFields[currentIndex - adder].requestFocus();
                                         resetColor();
+                                        textFields[currentIndex - adder].requestFocus();
                                     } else if (e.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
                                         textFields[currentIndex + adder].requestFocus();
-                                        textFields[currentIndex].setText("");
                                         textFields[currentIndex].setBackground(Color.decode("#C4A484"));
                                     }
                                 } else {
@@ -181,10 +180,27 @@ public class CharGridGUI {
             }
         });
 
+
 // Save and load buttons
         save = new JButton("Save");
         load = new JButton("Load");
         undo = new JButton("Undo");
+        wordQuestion = new JButton("Word?");
+        // Add ActionListener to the button
+        wordQuestion.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Show the input dialog when the button is clicked
+                String input = JOptionPane.showInputDialog(frame, "Is this a word?");
+
+                // Optionally, you can print the input to the console or use it elsewhere
+                if (WordFinder.isAWord(input.toUpperCase())) {
+                    JOptionPane.showMessageDialog(frame, "YES!");
+                }
+                else {
+                    JOptionPane.showMessageDialog(frame, "NO!");
+                }
+            }
+        });
 
         save.addActionListener(new ActionListener() {
             @Override
@@ -196,7 +212,6 @@ public class CharGridGUI {
                         pw.append(printArray(grid[i]) + "\n");
                         pw.flush();
                     }
-                    pw.append(lettersGiven.getText() + "\n");
                 } catch (IOException er) {
                     System.out.println("you got the file name wrong moron");
                 }
@@ -214,7 +229,6 @@ public class CharGridGUI {
                             grid[i][j] = line.charAt(j);
                         }
                     }
-                    lettersGiven.setText(bfr.readLine());
                 } catch (IOException er) {
                     System.out.println("you got the file name wrong");
                 }
@@ -237,6 +251,7 @@ public class CharGridGUI {
         bottomPanel.add(score);
         bottomPanel.add(load);
         bottomPanel.add(undo);
+        bottomPanel.add(wordQuestion);
 
 // Add components to the frame
         enterPanel.add(directionButton);
