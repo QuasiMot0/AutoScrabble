@@ -30,6 +30,7 @@ public class CharGridGUI {
     public JLabel score;
 
 
+
     public CharGridGUI() {
 // Initialize the main frame
         frame = new JFrame("Scrabble Word Generator");
