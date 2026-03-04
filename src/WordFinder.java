@@ -156,6 +156,7 @@ public class WordFinder {
     }
 
     public static boolean isAWord(String word){
+        word = word.toUpperCase();
         if(word.isEmpty()) {return false;}
         if(word.length() == 1) {return true;}
         Path filePath = Paths.get("resources", "allWords", word.charAt(0) + "Words.txt");
